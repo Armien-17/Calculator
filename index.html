@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Advanced Web Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f1f1f1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .calculator {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      width: 400px;
+    }
+    input, button {
+      font-size: 1.1rem;
+      padding: 0.5rem;
+      width: 100%;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .result {
+      margin-top: 1rem;
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <h2>Calculator</h2>
+    <input type="text" id="expression" placeholder="Enter expression, e.g. sin(1) + sqrt(16)" />
+    <button onclick="calculate()">Calculate</button>
+    <div id="result" class="result">Result:</div>
+  </div>
+
+  <script>
+    function calculate() {
+      const input = document.getElementById('expression').value;
+
+      // Safe math environment
+      const mathContext = {
+        sin: Math.sin,
+        cos: Math.cos,
+        tan: Math.tan,
+        sqrt: Math.sqrt,
+        log: Math.log,
+        log10: x => Math.log10(x),
+        exp: Math.exp,
+        abs: Math.abs,
+        pow: Math.pow,
+        PI: Math.PI,
+        E: Math.E,
+        floor: Math.floor,
+        ceil: Math.ceil,
+        round: Math.round
+      };
+
+      try {
+        const func = new Function(...Object.keys(mathContext), `return ${input}`);
+        const result = func(...Object.values(mathContext));
+        document.getElementById('result').innerText = `Result: ${result}`;
+      } catch (err) {
+        document.getElementById('result').innerText = `Error: ${err.message}`;
+      }
+    }
+  </script>
+</body>
+</html>
